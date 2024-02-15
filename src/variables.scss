@@ -1,0 +1,27 @@
+// breakpoints
+$phone-s: 365;
+$phone-m: 414;
+$tablet: 767;
+$desktop: 1024;
+$desktop-lg: 1360;
+
+$max-width: 1314px;
+
+:root {
+    // colors
+    --white: #ffffff;
+    --black: #000000;
+
+    --primary-500: #46A6FF;
+    --primary-light: #6bb7fe;
+
+    --gray-100: #cbcbcb;
+
+    // border-radius
+    --br--10: 10px;
+    --br--12: 12px;
+    --br--15: 15px;
+    --br--18: 18px;
+    --br--21: 21px;
+    --br--22: 22px;
+}
