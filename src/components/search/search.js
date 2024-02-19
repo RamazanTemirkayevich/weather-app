@@ -1,14 +1,14 @@
+import './search.scss'
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../api";
 
-const Search = ({onSearchChange}) => {
-
-    const [search, setSearch] = useState(null)
+const Search = ({ onAddCity }) => {
+    const [search, setSearch] = useState(null);
 
     const loadOptions = (inputValue) => {
         return fetch(
-            `${GEO_API_URL}/cities?minPopulation=1000000&namePrefix=${inputValue}`, 
+            `${GEO_API_URL}/cities?minPopulation=5000&namePrefix=${inputValue}`,
             geoApiOptions
         )
             .then(response => response.json())
@@ -27,7 +27,10 @@ const Search = ({onSearchChange}) => {
 
     const handleOnChange = (searchData) => {
         setSearch(searchData);
-        onSearchChange(searchData);
+    }
+
+    const handleAddCity = () => {
+        onAddCity(search);
     }
 
     return (
@@ -39,7 +42,9 @@ const Search = ({onSearchChange}) => {
                     value={search}
                     onChange={handleOnChange}
                     loadOptions={loadOptions}
+                    className="search__input"
                 />
+                <button className="search__button" onClick={handleAddCity}>Add</button>
             </div>
         </section>
     )
