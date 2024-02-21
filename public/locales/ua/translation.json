@@ -1,0 +1,59 @@
+{
+    "inputError": "Введіть повну назву міста",
+    "weather": "ПОГОДА",
+    "lang": {
+        "en": "АНГЛ",
+        "ru": "РОС",
+        "ua": "УКР"
+    },
+    "search": {
+        "placeholder": "Виберіть місто"
+    },
+
+    "card" : {
+        "days" : {
+            "Sun" : "Вс",
+            "Mon" : "Пн",
+            "Tue" : "Вт",
+            "Wed" : "Ср",
+            "Thu": "Чт",
+            "Fri" : "Пт",
+            "Sut" : "Сб"
+        },
+        "months": {
+            "January" : "Січня",
+            "February" : "Лютого",
+            "March" : "Березня",
+            "April" : "Квітня",
+            "May" : "Травня",
+            "June" : "Червня",
+            "July" :  "Липня",
+            "August" : "Серпня",
+            "September" : "Вересня",
+            "October" : "Жовтня",
+            "November" : "Листопада",
+            "December" : "Грудня"
+        },
+        "weather" : {
+            "Clouds" : "Хмарно",
+            "Rain" : "Дощ",
+            "Clear" : "Ясно",
+            "OvercastClouds": "Хмарно",
+            "FewClouds": "Напiв Хмарно",
+            "Snow": "Снiг"
+        },
+        "details": "Опис",
+        "feelsLike": "Відчувається як",
+        "wind": "Вiтер",
+        "humidity": "Вологiсть",
+        "pressure": "Тиск",
+        "speed": "м/с",
+        "speedI": "м/г",
+        "press": "Пa"
+    },
+    "hourlyForecast": "Погодинний прогноз",
+    "dailyForecast": "Щоденний прогноз",
+    "button": {
+        "Add": "Додати"
+    }
+}

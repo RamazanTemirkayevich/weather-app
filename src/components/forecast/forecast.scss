@@ -1,0 +1,12 @@
+.forecast__wrap-list {
+    width: 100%;
+
+    display: flex;
+
+    &__item {
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

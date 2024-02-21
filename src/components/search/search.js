@@ -2,8 +2,9 @@ import './search.scss'
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../api";
+import { useTranslation } from 'react-i18next';
 
-const Search = ({ onAddCity }) => {
+const Search = ({ onSearchChange }) => {
     const [search, setSearch] = useState(null);
 
     const loadOptions = (inputValue) => {
@@ -29,22 +30,28 @@ const Search = ({ onAddCity }) => {
         setSearch(searchData);
     }
 
-    const handleAddCity = () => {
-        onAddCity(search);
+    const handleOnSearchChange = () => {
+        if (search && search.value && search.label) {
+            onSearchChange(search);
+        } else {
+            alert('Input is empty')
+        }
     }
+
+    const { t } = useTranslation();
 
     return (
         <section className="section">
             <div className="container search">
                 <AsyncPaginate
-                    placeholder="Search for city"
+                    placeholder={t("search.placeholder")}
                     debounceTimeout={600}
                     value={search}
                     onChange={handleOnChange}
                     loadOptions={loadOptions}
                     className="search__input"
                 />
-                <button className="search__button" onClick={handleAddCity}>Add</button>
+                <button className="search__button" onClick={handleOnSearchChange}>{t("button.Add")}</button>
             </div>
         </section>
     )

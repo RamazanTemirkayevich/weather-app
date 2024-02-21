@@ -1,0 +1,58 @@
+{
+    "inputError": "Enter full city name",
+    "weather": "WEATHER",
+    "lang": {
+        "en": "EN",
+        "ru": "RU",
+        "ua": "UA"
+    },
+    "search": {
+        "placeholder": "Search for cities"
+    },
+    "card" : {
+        "days" : {
+            "Sun" : "Sun",
+            "Mon" : "Mon",
+            "Tue" : "Tue",
+            "Wed" : "Wed",
+            "Thu": "Thu",
+            "Fri" : "Fri",
+            "Sut" : "Sut"
+        },
+        "months": {
+            "January" : "January",
+            "February" : "February",
+            "March" : "March",
+            "April" : "April",
+            "May" : "May",
+            "June" : "June",
+            "July" :  "July",
+            "August" : "August",
+            "September" : "September",
+            "October" : "October",
+            "November" : "November",
+            "December" : "December"
+        },
+        "weather" : {
+            "Clouds" : "Clouds",
+            "Rain" : "Rain",
+            "Clear" : "Clear",
+            "OvercastClouds": "Overcast Clouds",
+            "FewClouds": "Few Clouds",
+            "Snow": "Snow"
+        },
+        "details": "Details",
+        "feelsLike": "Feels Like",
+        "wind": "Wind",
+        "humidity": "Humidity",
+        "pressure": "Pressure",
+        "speed": "m/s",
+        "speedI": "m/h",
+        "press": "Pa"
+    },
+    "hourlyForecast": "Hourly forecast",
+    "dailyForecast": "Daily forecast",
+    "button": {
+        "Add": "Add"
+    }
+}

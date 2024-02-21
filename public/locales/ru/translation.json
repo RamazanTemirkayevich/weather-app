@@ -1,0 +1,58 @@
+{
+    "inputError": "Введите полное название города",
+    "weather": "ПОГОДА",
+    "lang": {
+        "en": "АНГЛ",
+        "ru": "РУС",
+        "ua": "УКР"
+    },
+    "search": {
+        "placeholder": "Выберите город"
+    },
+    "card" : {
+        "days" : {
+            "Sun" : "Вс",
+            "Mon" : "Пн",
+            "Tue" : "Вт",
+            "Wed" : "Ср",
+            "Thu": "Чт",
+            "Fri" : "Пт",
+            "Sut" : "Сб"
+        },
+        "months": {
+            "January" : "Января",
+            "February" : "Февраля",
+            "March" : "Марта",
+            "April" : "Апреля",
+            "May" : "Мая",
+            "June" : "Июня",
+            "July" :  "Июля",
+            "August" : "Августа",
+            "September" : "Сентября",
+            "October" : "Октября",
+            "November" : "Ноября",
+            "December" : "Декабря"
+        },
+        "weather" : {
+            "Clouds" : "Облачно",
+            "Rain" : "Дождь",
+            "Clear" : "Ясно",
+            "OvercastClouds": "Пасмурно Облачно",
+            "FewClouds": "Мало Облачно",
+            "Snow": "Снег"
+        },
+        "details": "Описание",
+        "feelsLike": "Ощущается как",
+        "wind": "Ветер",
+        "humidity": "Влажность",
+        "pressure": "Давление",
+        "speed": "м/с",
+        "speedI": "м/ч",
+        "press": "Пa"
+    },
+    "hourlyForecast": "Почасовой прогноз",
+    "dailyForecast": "Ежедневный прогноз",
+    "button": {
+        "Add": "Добавить"
+    }
+}
