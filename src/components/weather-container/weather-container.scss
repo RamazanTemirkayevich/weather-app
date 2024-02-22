@@ -6,3 +6,24 @@
 
     gap: 15px;
 }
+
+@media (min-width: 600px) {
+    .weather__list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .weather__list {
+        margin-top: 80px;
+
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1440px) {
+    .weather__list {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}

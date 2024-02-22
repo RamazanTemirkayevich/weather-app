@@ -1,6 +1,7 @@
 import './current-weather.scss';
 import Forecast from '../forecast/forecast';
 import { useTranslation } from "react-i18next";
+import { useState } from 'react';
 // import WeatherChart from '../weather-chart/weather-chart';
 // import DegreeSwitcher from '../degree-switcher/degree-switcher';
 
@@ -24,6 +25,7 @@ const getWeatherBackgroundClass = (weather) => {
 };
 
 const CurrentWeather = ({ data, onRemove, forecast }) => {
+    const [isCelsius, setIsCelsius] = useState(true); // Локальное состояние для отслеживания текущего формата температуры
     const weatherBackgroundClass = getWeatherBackgroundClass(data.weather[0].main);
     const { t } = useTranslation();
 
@@ -31,6 +33,10 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
         onRemove(data.id);
     };
 
+
+    const handleDegreeSwitch = () => {
+        setIsCelsius(prevState => !prevState); // Изменение состояния на противоположное
+    };
 
     return (
         <li className={`weather__list-item ${weatherBackgroundClass}`}>
@@ -42,8 +48,7 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
                 <div className="weather__list-item__icon">
                     <img alt="weather" src={`./icons/${data.weather[0].icon}.png`} />
                     <span>
-                        {t(`card.weather.${data.weather[0].description}`)}
-                        {/* {data.weather[0]?.description} */}
+                        {data.weather[0]?.description}
                     </span>
                 </div>
             </div>
@@ -54,14 +59,13 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
                 <div className="weather__list-item__degree">
                     <div className="weather__list-item__degree-top">    
                         <span>
-                            {data.main.temp > 0 ? "+" : null}
-                            {data.unit === "metric"
-                                ? data.main.temp
-                                : Math.round((data.main.temp))}
+                            {isCelsius 
+                                ? (data.unit === "metric" ? (data.main.temp > 0 ? "+" : null) : null) + Math.round(data.main.temp)
+                                : (data.unit === "metric" ? (data.main.temp > 0 ? "+" : null) : null) + Math.round(data.main.temp * 9/5 + 32)}
                         </span>
-                        <div className="weather__list-item__degree-switch">
-                            <span className="degree-switch">°C</span>
-                            <span className="degree-switch">°F</span>
+                        <div className="weather__list-item__degree-switch" onClick={handleDegreeSwitch}>
+                            <span className={`degree-switch ${isCelsius ? 'active' : ''}`}>°C</span>
+                            <span className={`degree-switch ${!isCelsius ? 'active' : ''}`}>°F</span>
                         </div>
                     </div>
                     <div className="weather__list-item__degree-bottom">
@@ -76,13 +80,13 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
                 </div>
                 <ul className="weather__list-item__params">
                     <li className="weather__list-item__params-item">
-                        Wind: <span>{Math.round(data.wind.speed)} m/s</span>
+                        {t("card.wind")}: <span className="params">{Math.round(data.wind.speed)} m/s</span>
                     </li>
                     <li className="weather__list-item__params-item">
-                        Humidity: <span>{Math.round(data.main.humidity)}%</span>
+                        {t("card.humidity")}: <span className="params">{Math.round(data.main.humidity)}%</span>
                     </li>
                     <li className="weather__list-item__params-item">
-                        Pressure: <span>{Math.round(data.main.pressure)}Pa</span>
+                        {t("card.pressure")}: <span className="params">{Math.round(data.main.pressure)}Pa</span>
                     </li>
                 </ul>
             </div>

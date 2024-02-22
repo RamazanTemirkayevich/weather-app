@@ -34,7 +34,7 @@ function Header() {
 
     return (
         <section className="section">
-            <div className="top-menu">
+            <div className="top__menu">
                 <div className="top__menu-language" onClick={openList}>
                     <div className="top__menu-language__web">
                         <img src="./icons/web.svg" width="20px" height="20px" alt="" />

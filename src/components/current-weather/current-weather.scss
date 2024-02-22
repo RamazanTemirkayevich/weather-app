@@ -11,7 +11,7 @@
     height: 250px;
 
     background-color: var(--white);
-    border-radius: var(--br--15);
+    border-radius: var(--br--12);
     box-shadow: 0px 1px 8px 3px rgba(141 141 141 / 25%);
 
     &.sunny {
@@ -26,19 +26,8 @@
         background-color: #E0E5FB;
     }
 
-    &.sunny > &__params-item > p span {
-        color: var(--primary-500);
-    }
-
-    &.rain,
-    &.cloudy,
-    &.thunderstorm,
-    &.drizzle,
-    &.snow > &__params-item {
-        p span {
-
-            color: var(--light);
-        }
+    &.sunny &__params &__params-item .params {
+        color: var(--light);
     }
 
     &__top {
@@ -133,12 +122,17 @@
     }
 
     &__degree-switch {
+        position: relative;
         display: flex;
         gap: 15px;
 
         span {
             position: relative;
+            
             font-size: 22px;
+            color: var(--gray-200);
+            cursor: pointer;
+            transition: .3s;
         }
 
         span:after {
@@ -154,10 +148,16 @@
 
             background-color: var(--black);
             border-radius: 2px;
+            pointer-events: none;
         }
 
         span:last-child:after {
             display: none;
+        }
+
+        .degree-switch.active {
+            color: var(--black);
+            z-index: 1;
         }
     }
 
@@ -173,6 +173,8 @@
 
             span {
                 font-weight: 600;
+
+                color: var(--primary-500);
             }
         }
     }
