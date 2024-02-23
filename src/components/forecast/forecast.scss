@@ -1,12 +1,26 @@
 .forecast__wrap-list {
-    width: 100%;
+    width: 94%;
 
     display: flex;
 
-    &__item {
-        img {
-            width: 20px;
-            height: 20px;
-        }
+    margin-left: 15px;
+
+    line.recharts-cartesian-axis-line {
+        stroke: none !important;
+    }
+
+    circle.recharts-dot.recharts-line-dot {
+        stroke: transparent !important;
+        fill: transparent !important;
+        cx: 5 !important;
+    }  
+
+    line.recharts-cartesian-axis-tick-line {
+        display: none;
+    }
+
+    text.recharts-text.recharts-cartesian-axis-tick-value {
+        font-size: 11px;
+        fill: var(--gray-200);
     }
 }

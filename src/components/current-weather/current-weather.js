@@ -25,7 +25,7 @@ const getWeatherBackgroundClass = (weather) => {
 };
 
 const CurrentWeather = ({ data, onRemove, forecast }) => {
-    const [isCelsius, setIsCelsius] = useState(true); // Локальное состояние для отслеживания текущего формата температуры
+    const [isCelsius, setIsCelsius] = useState(true);
     const weatherBackgroundClass = getWeatherBackgroundClass(data.weather[0].main);
     const { t } = useTranslation();
 
@@ -35,7 +35,7 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
 
 
     const handleDegreeSwitch = () => {
-        setIsCelsius(prevState => !prevState); // Изменение состояния на противоположное
+        setIsCelsius(prevState => !prevState);
     };
 
     return (
@@ -43,7 +43,6 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
             <div className="weather__list-item__top">
                 <div className="weather__list-item__descr">
                     <p>{data.city}</p>
-                    {/* <span>Fri, 12 May, 10:25</span> */}
                 </div>
                 <div className="weather__list-item__icon">
                     <img alt="weather" src={`./icons/${data.weather[0].icon}.png`} />
@@ -53,7 +52,7 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
                 </div>
             </div>
             <div className="weather__list-item__middle">
-                {forecast && <Forecast data={forecast} />}
+                {forecast && <Forecast data={forecast}/>}
             </div>
             <div className="weather__list-item__footer">
                 <div className="weather__list-item__degree">

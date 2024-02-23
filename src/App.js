@@ -3,7 +3,6 @@ import './variables.scss';
 import './reset.sass';
 import './components/weather-container/weather-container.scss';
 import Search from './components/search/search';
-import Forecast from './components/forecast/forecast';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
 import CurrentWeather from './components/current-weather/current-weather';
@@ -14,7 +13,6 @@ import { useState, useEffect } from 'react';
 function App() {
   const [weatherData, setWeatherData] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  const [setCurrentWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
@@ -35,6 +33,17 @@ function App() {
     };
 
     getUserLocation();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('weatherData', JSON.stringify(weatherData));
+  }, [weatherData]);
+
+  useEffect(() => {
+    const savedWeatherData = localStorage.getItem('weatherData');
+    if (savedWeatherData) {
+      setWeatherData(JSON.parse(savedWeatherData));
+    }
   }, []);
 
   useEffect(() => {
@@ -72,10 +81,9 @@ function App() {
         const newData = { id, city: searchData.label, ...weatherData };
         setWeatherData(prevData => [...prevData, newData]);
 
-        setCurrentWeather({ city: searchData.label, ...weatherResponse });
         setForecast({ city: searchData.label, ...forecastResponse });
       }, [userLocation])
-      .catch(console.log);
+      .catch(console.log('error'));
   };
 
   const handleRemoveWeatherCard = (id) => {
@@ -83,6 +91,7 @@ function App() {
   };
 
   console.log(weatherData);
+  console.log(forecast);
 
   return (
     <div className="container">
@@ -91,10 +100,9 @@ function App() {
         onSearchChange={handleOnSearchChange}
       />
       <ul className="weather__list">
-        {weatherData.map((data) => (
-          <CurrentWeather key={data.id} data={data} onRemove={() => handleRemoveWeatherCard(data.id)} />
+        {weatherData.map((data, i) => (
+          <CurrentWeather key={i} forecast={forecast} data={data} onRemove={() => handleRemoveWeatherCard(data.id)} />
         ))}
-        {forecast && <Forecast data={forecast} />}
       </ul>
     </div>
   );

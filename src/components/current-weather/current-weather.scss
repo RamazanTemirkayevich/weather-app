@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    justify-self: center; /* Горизонтальное выравнивание по центру */
 
     padding: 18px;
 
@@ -28,6 +29,18 @@
 
     &.sunny &__params &__params-item .params {
         color: var(--light);
+    }
+
+    // &.sunny path.recharts-curve.recharts-area-area {
+    //     fill: var(--light);
+    // }
+
+    // path.recharts-curve.recharts-area-area {
+    //     fill: var(--primary-500);
+    // }
+
+    path.recharts-curve.recharts-area-curve {
+        stroke: unset;
     }
 
     &__top {
@@ -193,5 +206,23 @@
         img {
             width: 100%;
         }
+    }
+}
+
+@media (min-width: 600px) {
+    .weather__list-item {
+        width: 48%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .weather__list-item {
+        width: 31%;
+    }
+}
+
+@media (min-width: 1440px) {
+    .weather__list-item {
+        width: 23%;
     }
 }
