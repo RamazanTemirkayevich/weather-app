@@ -4,9 +4,12 @@ import { PureComponent } from "react";
 
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-const Forecast = ({ data }) => {
+const Forecast = ({ data, isCelsius }) => {
     const dayInAWeek = new Date().getDay();
     const forecastDays = WEEK_DAYS.slice(dayInAWeek, WEEK_DAYS.length).concat(WEEK_DAYS.slice(0, dayInAWeek));
+    if (!data || !data.list) {
+        return null; // Возвращаем null, если данные или свойство list отсутствуют
+    }
 
     const forecastDataForChart = data.list.slice(0, 9).map((item, idx) => {
         const date = new Date(item.dt_txt);
@@ -17,7 +20,7 @@ const Forecast = ({ data }) => {
         return {
             day: !idx ? 'Today' : forecastDays[idx],
             date: formattedDate,
-            temperature: Math.round(item.main.temp)
+            temperature: isCelsius ? Math.round(item.main.temp) : Math.round(item.main.temp * 9/5 + 32)
         };
     });
 
@@ -35,7 +38,7 @@ const Forecast = ({ data }) => {
 
     return (
         <>
-            <div allowZeroExpanded className="forecast__wrap-list">
+            <div className="forecast__wrap-list">
                 <AreaChart
                     width={420}
                     height={80}
@@ -48,17 +51,24 @@ const Forecast = ({ data }) => {
                     }}
                 >
                     <defs>
-                        <linearGradient id="gradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <linearGradient id="gradient1" x1="0%" y1="100%" x2="0%" y2="0%">
                             <stop offset="0%" stopColor="#E0E5FB" />
-                            <stop offset="100%" stopColor="#459DE9" />
+                            <stop offset="100%" stopColor="#B2C6FF" />
+                        </linearGradient>
+                    </defs>
+                    <defs>
+                        <linearGradient id="gradient2" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stopColor="#FFFAF1" />
+                            <stop offset="100%" stopColor="#FFE0C5" />
                         </linearGradient>
                     </defs>
                     <Tooltip />
                     <XAxis dataKey="date" />
-                    <Area type="monotone" dataKey="temperature" label={<CustomizedLabel />} fill="url(#gradient)" />
+                    <Area type="monotone" dataKey="temperature" label={<CustomizedLabel />} /* fill="url(#gradient)" */ />
                 </AreaChart>
             </div>
         </>
+        
     );
 };
 

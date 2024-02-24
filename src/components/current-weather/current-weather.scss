@@ -16,6 +16,7 @@
     box-shadow: 0px 1px 8px 3px rgba(141 141 141 / 25%);
 
     &.sunny {
+        position: relative;
         background-color: #FFF9EC;
     }
 
@@ -31,16 +32,25 @@
         color: var(--light);
     }
 
-    // &.sunny path.recharts-curve.recharts-area-area {
-    //     fill: var(--light);
-    // }
+    &.sunny path.recharts-curve.recharts-area-area {
+        fill: url(#gradient2);
+    }
 
-    // path.recharts-curve.recharts-area-area {
-    //     fill: var(--primary-500);
-    // }
+    path.recharts-curve.recharts-area-area {
+        fill: url(#gradient1);
+    }
 
     path.recharts-curve.recharts-area-curve {
         stroke: unset;
+    }
+
+    .recharts-default-tooltip {
+        border: none !important;
+        border-radius: var(--br--8);
+    }
+
+    li.recharts-tooltip-item {
+        color: var(--primary-500) !important;
     }
 
     &__top {

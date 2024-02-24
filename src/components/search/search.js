@@ -14,25 +14,27 @@ const Search = ({ onSearchChange }) => {
         )
             .then(response => response.json())
             .then((response) => {
-                return {
-                    options: response.data.map((city) => {
-                        return {
-                            value: `${city.latitude} ${city.longitude}`,
-                            label: `${city.name}, ${city.countryCode}`,
-                        }
-                    })
+                if (response.data && Array.isArray(response.data)) {
+                    return {
+                        options: response.data.map((city) => {
+                            return {
+                                value: `${city.latitude} ${city.longitude}`,
+                                label: `${city.name}, ${city.countryCode}`,
+                            };
+                        }),
+                    };
+                } else {
+                    return { options: [] }; // Возвращаем пустой массив опций
                 }
             })
             .catch(err => console.error(err));
     };
 
-    const handleOnChange = (searchData) => {
-        setSearch(searchData);
-    }
 
     const handleOnSearchChange = () => {
         if (search && search.value && search.label) {
-            onSearchChange(search);
+            const searchCoords = search.value.split(' ')
+            onSearchChange({latitude: searchCoords[0], longitude:  searchCoords[1], city: search.label});
         } else {
             alert('Input is empty')
         }
@@ -47,7 +49,7 @@ const Search = ({ onSearchChange }) => {
                     placeholder={t("search.placeholder")}
                     debounceTimeout={600}
                     value={search}
-                    onChange={handleOnChange}
+                    onChange={searchData=>setSearch(searchData)}
                     loadOptions={loadOptions}
                     className="search__input"
                 />

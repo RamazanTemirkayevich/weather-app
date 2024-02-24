@@ -1,9 +1,7 @@
 import './current-weather.scss';
 import Forecast from '../forecast/forecast';
 import { useTranslation } from "react-i18next";
-import { useState } from 'react';
-// import WeatherChart from '../weather-chart/weather-chart';
-// import DegreeSwitcher from '../degree-switcher/degree-switcher';
+import { useState, useEffect} from 'react';
 
 const getWeatherBackgroundClass = (weather) => {
     switch (weather) {
@@ -24,15 +22,28 @@ const getWeatherBackgroundClass = (weather) => {
     };
 };
 
-const CurrentWeather = ({ data, onRemove, forecast }) => {
+const WeatherCard = ({ data, onRemove }) => {
+    const {id, city, currentWeather, forecast} = data
+    const [currentTime, setCurrentTime] = useState(new Date());
     const [isCelsius, setIsCelsius] = useState(true);
-    const weatherBackgroundClass = getWeatherBackgroundClass(data.weather[0].main);
+    const weatherBackgroundClass = getWeatherBackgroundClass(currentWeather.weather[0].main);
     const { t } = useTranslation();
-
     const handleRemoveClick = () => {
-        onRemove(data.id);
+        onRemove(id);
     };
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const formatTime = (time) => {
+        const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+        return `${time.toDateString().slice(0, 3)}, ${time.getMonth()} ${time.toDateString().slice(4, 7)}, ${time.getHours()}:${minutes}`;
+    };
 
     const handleDegreeSwitch = () => {
         setIsCelsius(prevState => !prevState);
@@ -42,25 +53,26 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
         <li className={`weather__list-item ${weatherBackgroundClass}`}>
             <div className="weather__list-item__top">
                 <div className="weather__list-item__descr">
-                    <p>{data.city}</p>
+                    <p>{city}</p>
+                    <span>{formatTime(currentTime)}</span>
                 </div>
                 <div className="weather__list-item__icon">
-                    <img alt="weather" src={`./icons/${data.weather[0].icon}.png`} />
+                    <img alt="weather" src={`./icons/${currentWeather.weather[0].icon}.png`} />
                     <span>
-                        {data.weather[0]?.description}
+                        {currentWeather.weather[0]?.description}
                     </span>
                 </div>
             </div>
             <div className="weather__list-item__middle">
-                {forecast && <Forecast data={forecast}/>}
+                {forecast && <Forecast data={forecast} isCelsius={isCelsius}/>}
             </div>
             <div className="weather__list-item__footer">
                 <div className="weather__list-item__degree">
-                    <div className="weather__list-item__degree-top">    
+                    <div className="weather__list-item__degree-top">
                         <span>
-                            {isCelsius 
-                                ? (data.unit === "metric" ? (data.main.temp > 0 ? "+" : null) : null) + Math.round(data.main.temp)
-                                : (data.unit === "metric" ? (data.main.temp > 0 ? "+" : null) : null) + Math.round(data.main.temp * 9/5 + 32)}
+                            {isCelsius
+                                ? (currentWeather.unit === "metric" ? (currentWeather.main.temp > 0 ? "+" : null) : null) + Math.round(currentWeather.main.temp)
+                                : (currentWeather.unit === "metric" ? (currentWeather.main.temp > 0 ? "+" : null) : null) + Math.round(currentWeather.main.temp * 9/5 + 32)}
                         </span>
                         <div className="weather__list-item__degree-switch" onClick={handleDegreeSwitch}>
                             <span className={`degree-switch ${isCelsius ? 'active' : ''}`}>°C</span>
@@ -70,22 +82,22 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
                     <div className="weather__list-item__degree-bottom">
                         <p>{t("card.feelsLike")}
                             <span className="feels">
-                                {data.unit === "metric"
-                                    ? data.main.feels_like
-                                    : Math.round((data.main.feels_like))}°C
+                                {currentWeather.unit === "metric"
+                                    ? currentWeather.main.feels_like
+                                    : Math.round((currentWeather.main.feels_like))}°C
                             </span>
                         </p>
                     </div>
                 </div>
                 <ul className="weather__list-item__params">
                     <li className="weather__list-item__params-item">
-                        {t("card.wind")}: <span className="params">{Math.round(data.wind.speed)} m/s</span>
+                        {t("card.wind")}: <span className="params">{Math.round(currentWeather.wind.speed)} {t("card.speed")}</span>
                     </li>
                     <li className="weather__list-item__params-item">
-                        {t("card.humidity")}: <span className="params">{Math.round(data.main.humidity)}%</span>
+                        {t("card.humidity")}: <span className="params">{Math.round(currentWeather.main.humidity)}%</span>
                     </li>
                     <li className="weather__list-item__params-item">
-                        {t("card.pressure")}: <span className="params">{Math.round(data.main.pressure)}Pa</span>
+                        {t("card.pressure")}: <span className="params">{Math.round(currentWeather.main.pressure)} {t("card.press")}</span>
                     </li>
                 </ul>
             </div>
@@ -96,4 +108,4 @@ const CurrentWeather = ({ data, onRemove, forecast }) => {
     );
 }
 
-export default CurrentWeather;
+export default WeatherCard;
