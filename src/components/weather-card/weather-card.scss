@@ -15,24 +15,25 @@
     border-radius: var(--br--12);
     box-shadow: 0px 1px 8px 3px rgba(141 141 141 / 25%);
 
-    &.sunny {
+    &.Clear {
         position: relative;
         background-color: #FFF9EC;
     }
 
-    &.rain,
-    &.cloudy,
-    &.thunderstorm,
-    &.drizzle,
-    &.snow {
+    &.Rain,
+    &.Clouds,
+    &.Thunderstorm,
+    &.Drizzle,
+    &.Fog,
+    &.Snow {
         background-color: #E0E5FB;
     }
 
-    &.sunny &__params &__params-item .params {
+    &.Clear &__params &__params-item .params {
         color: var(--light);
     }
 
-    &.sunny path.recharts-curve.recharts-area-area {
+    &.Clear path.recharts-curve.recharts-area-area {
         fill: url(#gradient2);
     }
 
@@ -82,7 +83,7 @@
         display: flex;
         align-items: center;
 
-        gap: 12px;
+        gap: 7px;
 
         img {
             width: 20px;
@@ -90,6 +91,7 @@
 
         span {
             margin-right: 15px;
+            width: min-content;
             font-size: 12px;
             font-weight: 500;
             text-transform: capitalize;
@@ -180,7 +182,6 @@
 
         .degree-switch.active {
             color: var(--black);
-            z-index: 1;
         }
     }
 

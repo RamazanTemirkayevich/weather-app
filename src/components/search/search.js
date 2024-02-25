@@ -24,7 +24,7 @@ const Search = ({ onSearchChange }) => {
                         }),
                     };
                 } else {
-                    return { options: [] }; // Возвращаем пустой массив опций
+                    return { options: [] };
                 }
             })
             .catch(err => console.error(err));

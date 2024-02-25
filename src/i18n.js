@@ -7,7 +7,7 @@ i18n
   .use(initReactI18next)
   .use(Backend)
   .init({
-    lng: localStorage.getItem("cleverWalletLanguage") || 'en',
+    lng: localStorage.getItem("language") || 'en',
     fallbackLng: 'en',
     debug: true,
     interpolation: {

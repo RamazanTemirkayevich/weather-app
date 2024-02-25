@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import './components/weather-container/weather-container.scss';
 import Search from './components/search/search';
-import WeatherCard from './components/current-weather/current-weather';
+import WeatherCard from './components/weather-card/weather-card';
 import Header from './components/header/header';
 
 import { WEATHER_API_URL, WEATHER_API_KEY } from './api';
@@ -14,7 +13,7 @@ import './reset.sass';
 
 
 function App() {
-  const [weatherData, setWeatherData] = useState([]);
+  const [weatherData, setWeatherData] = useState(JSON.parse(localStorage.getItem('weatherData')) || []);
 
   const getForecast = async ({latitude, longitude, city}) => {
 
@@ -36,7 +35,6 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
-          console.log(position)
           getForecast({ latitude, longitude })
 
         },
@@ -49,9 +47,11 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('weatherData', JSON.stringify(weatherData))
+  }, [weatherData])
 
   const handleRemoveWeatherCard = (id) => {
-    console.log(id, weatherData)
     setWeatherData(prevData => prevData.filter(data => data.id !== id));
   };
 
@@ -70,10 +70,4 @@ function App() {
   );
 }
 
-const mapStateProps = state => {
-  return {
-    data: state.weather.data
-  };
-}
-
-export default connect(mapStateProps)(App);
+export default App;

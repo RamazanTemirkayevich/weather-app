@@ -1,32 +1,12 @@
-import './current-weather.scss';
+import './weather-card.scss';
 import Forecast from '../forecast/forecast';
 import { useTranslation } from "react-i18next";
 import { useState, useEffect} from 'react';
 
-const getWeatherBackgroundClass = (weather) => {
-    switch (weather) {
-        case 'Clear':
-            return 'sunny';
-        case 'Clouds':
-            return 'cloudy';
-        case 'Rain':
-            return 'rain';
-        case 'Drizzle':
-            return 'drizzle';
-        case 'Thunderstorm':
-            return 'thunderstorm';
-        case 'Snow':
-            return 'snow';
-        default:
-            return 'sunny';
-    };
-};
-
 const WeatherCard = ({ data, onRemove }) => {
     const {id, city, currentWeather, forecast} = data
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [isCelsius, setIsCelsius] = useState(true);
-    const weatherBackgroundClass = getWeatherBackgroundClass(currentWeather.weather[0].main);
+    const [isCelsius, setIsCelsius] = useState(localStorage.getItem('degree') === 'C' ? true : false);
     const { t } = useTranslation();
     const handleRemoveClick = () => {
         onRemove(id);
@@ -36,30 +16,49 @@ const WeatherCard = ({ data, onRemove }) => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-
+        
+        localStorage.setItem('weatherCards', JSON.stringify(data));
+        
         return () => clearInterval(timer);
-    }, []);
+    }, [data]);
 
     const formatTime = (time) => {
-        const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
-        return `${time.toDateString().slice(0, 3)}, ${time.getMonth()} ${time.toDateString().slice(4, 7)}, ${time.getHours()}:${minutes}`;
-    };
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut'];
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        
+        const minutes = time.getUTCMinutes() < 10 ? `0${time.getUTCMinutes()}` : time.getUTCMinutes();
+        const hours = time.getUTCHours() < 10 ? `0${time.getUTCHours()}` : time.getUTCHours();
+        const dayOfWeek = daysOfWeek[time.getUTCDay()];
+        const dayOfMonth = time.getUTCDate();
+        const month = months[time.getUTCMonth()]; // Получаем название текущего месяца из массива months
+        
+        return [ t(`card.days.${dayOfWeek}`), ', ', `${dayOfMonth}`, ' ', t(`card.months.${month}`), `, `, `${hours}:${minutes}` ]
+    };    
 
     const handleDegreeSwitch = () => {
         setIsCelsius(prevState => !prevState);
+        localStorage.setItem("degree", isCelsius ? 'F' : 'C')
     };
 
+    const calculateLocalTime = (currentTime, timezoneOffset) => {
+        const timezoneOffsetMillis = timezoneOffset * 1000;
+        const localTimeMillis = currentTime.getTime() + timezoneOffsetMillis;
+        return new Date(localTimeMillis);
+    };
+
+    const localTime = calculateLocalTime(currentTime, currentWeather.timezone);
+
     return (
-        <li className={`weather__list-item ${weatherBackgroundClass}`}>
+        <li className={`weather__list-item ${(currentWeather.weather[0].main)}`}>
             <div className="weather__list-item__top">
                 <div className="weather__list-item__descr">
                     <p>{city}</p>
-                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(localTime)}</span>
                 </div>
                 <div className="weather__list-item__icon">
                     <img alt="weather" src={`./icons/${currentWeather.weather[0].icon}.png`} />
                     <span>
-                        {currentWeather.weather[0]?.description}
+                        {t(`card.weather.${currentWeather.weather[0]?.main}`)}
                     </span>
                 </div>
             </div>
@@ -70,9 +69,8 @@ const WeatherCard = ({ data, onRemove }) => {
                 <div className="weather__list-item__degree">
                     <div className="weather__list-item__degree-top">
                         <span>
-                            {isCelsius
-                                ? (currentWeather.unit === "metric" ? (currentWeather.main.temp > 0 ? "+" : null) : null) + Math.round(currentWeather.main.temp)
-                                : (currentWeather.unit === "metric" ? (currentWeather.main.temp > 0 ? "+" : null) : null) + Math.round(currentWeather.main.temp * 9/5 + 32)}
+                            {(currentWeather.unit === "metric" 
+                                ? (currentWeather.main.temp > 0 ? "+" : null) : null) + Math.round(isCelsius ? currentWeather.main.temp : (currentWeather.main.temp * 9/5 + 32))}
                         </span>
                         <div className="weather__list-item__degree-switch" onClick={handleDegreeSwitch}>
                             <span className={`degree-switch ${isCelsius ? 'active' : ''}`}>°C</span>
